@@ -9,6 +9,7 @@ public class ScreenController : MonoBehaviour
     [Header ("State Buttons")]
     [SerializeField] private Button _start;
     [SerializeField] private Button _stop;
+    [SerializeField] private Button _sync;
     [SerializeField] private Toggle _switchSyncToggle;
 
     [Header("Slider")]
@@ -43,6 +44,7 @@ public class ScreenController : MonoBehaviour
     {
         _start.onClick.AddListener(StartClock);
         _stop.onClick.AddListener(StopClock);
+        _sync.onClick.AddListener(SyncClock);
         _switchSyncToggle.onValueChanged.AddListener(SwitchSync);
         _applyKeyboardButton.onClick.AddListener(ApplyKeyboardButtonClick);
         _switchInputToggle.onValueChanged.AddListener(OnToggleChanged);
@@ -62,6 +64,11 @@ public class ScreenController : MonoBehaviour
         _clock.ClockActive = false;
     }
 
+    private void SyncClock()
+    {
+        _clock.SetTimeFromServer();
+    }
+
     private void SwitchSync(bool isOn)
     {
         _clock.SyncActive = isOn;
@@ -72,11 +79,6 @@ public class ScreenController : MonoBehaviour
         SetManualInputActive(isOn);
         
         _clock.ClockActive = !isOn;
-
-        if (isOn == false)
-        {
-            _clock.SetTimeFromServer();
-        }
     }
 
     private void SetManualInputActive(bool isActive)
